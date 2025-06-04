@@ -24,7 +24,7 @@ class AuctionServer:
         monitor_thread.start()
 
         while True:
-            client_socket, = server_socket.accept()
+            client_socket, address = server_socket.accept()
             client_thread = threading.Thread(target=self.handle_client, args=(client_socket,))
             client_thread.daemon = True
             client_thread.start()
@@ -57,8 +57,8 @@ class AuctionServer:
 
         except Exception as e:
             print(f"Error handling client {client_name}: {e}")
-        finally:
             self.remove_client(client_name)
+            
 
     def handle_command(self, client_name, command):
         print(f"Received command: {command}")
